@@ -1,6 +1,8 @@
 #Changes in this fork
 * Prevents duplicate animation triggers.
 
+This fork is being used [here](http://www.eastros.com).
+
 #One Page Scroll 1.3.1 by Pete R.
 Create an Apple-like one page scroll website (iPhone 5S website) with One Page Scroll plugin
 Created by [Pete R.](http://www.thepetedesign.com), Founder of [BucketListly](http://www.bucketlistly.com)

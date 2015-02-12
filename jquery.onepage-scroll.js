@@ -148,6 +148,7 @@
           pos = 0;
           next = $(settings.sectionContainer + "[data-index='1']");
         } else {
+          animationLock = false;
           return
         }
 
@@ -187,6 +188,7 @@
           next = $(settings.sectionContainer + "[data-index='"+total+"']");
         }
         else {
+          animationLock = false;
           return
         }
       }else {
