@@ -28,13 +28,17 @@
     loop: true,
     responsiveFallback: false,
     direction : 'vertical'
-	};
+  };
 
-	/*------------------------------------------------*/
-	/*  Credit: Eike Send for the awesome swipe event */
-	/*------------------------------------------------*/
+  // [UA Feb 13, 2015] Adding couple of locks to prevent duplicate animation triggers.
+  var animationLock = false,
+      touchLock = false;
 
-	$.fn.swipeEvents = function() {
+  /*------------------------------------------------*/
+  /*  Credit: Eike Send for the awesome swipe event */
+  /*------------------------------------------------*/
+
+  $.fn.swipeEvents = function() {
       return this.each(function() {
 
         var startX,
@@ -48,7 +52,11 @@
           if (touches && touches.length) {
             startX = touches[0].pageX;
             startY = touches[0].pageY;
-            $this.bind('touchmove', touchmove);
+
+            if ( !touchLock ) {
+              $this.bind('touchmove', touchmove);
+              touchLock = true;
+            }
           }
         }
 
@@ -60,15 +68,19 @@
 
             if (deltaX >= 50) {
               $this.trigger("swipeLeft");
+              touchLock = false;
             }
             if (deltaX <= -50) {
               $this.trigger("swipeRight");
+              touchLock = false;
             }
             if (deltaY >= 50) {
               $this.trigger("swipeUp");
+              touchLock = false;
             }
             if (deltaY <= -50) {
               $this.trigger("swipeDown");
+              touchLock = false;
             }
             if (Math.abs(deltaX) >= 50 || Math.abs(deltaY) >= 50) {
               $this.unbind('touchmove', touchmove);
@@ -96,8 +108,8 @@
       if (typeof settings.beforeMove == 'function') settings.beforeMove(index);
 
       // Just a simple edit that makes use of modernizr to detect an IE8 browser and changes the transform method into
-    	// an top animate so IE8 users can also use this script.
-    	if($('html').hasClass('ie8')){
+      // an top animate so IE8 users can also use this script.
+      if($('html').hasClass('ie8')){
         if (settings.direction == 'horizontal') {
           var toppos = (el.width()/100)*pos;
           $(this).animate({left: toppos+'px'},settings.animationTime);
@@ -105,9 +117,9 @@
           var toppos = (el.height()/100)*pos;
           $(this).animate({top: toppos+'px'},settings.animationTime);
         }
-    	} else{
-    	  $(this).css({
-    	    "-webkit-transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + pos + "%, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
+      } else{
+        $(this).css({
+          "-webkit-transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + pos + "%, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
          "-webkit-transition": "all " + settings.animationTime + "ms " + settings.easing,
          "-moz-transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + pos + "%, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
          "-moz-transition": "all " + settings.animationTime + "ms " + settings.easing,
@@ -115,14 +127,18 @@
          "-ms-transition": "all " + settings.animationTime + "ms " + settings.easing,
          "transform": ( settings.direction == 'horizontal' ) ? "translate3d(" + pos + "%, 0, 0)" : "translate3d(0, " + pos + "%, 0)",
          "transition": "all " + settings.animationTime + "ms " + settings.easing
-    	  });
-    	}
+        });
+      }
       $(this).one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(e) {
         if (typeof settings.afterMove == 'function') settings.afterMove(index);
+        animationLock = false;
       });
     }
 
     $.fn.moveDown = function() {
+      if ( animationLock ) return;
+      animationLock = true;
+
       var el = $(this)
       index = $(settings.sectionContainer +".active").data("index");
       current = $(settings.sectionContainer + "[data-index='" + index + "']");
@@ -157,6 +173,9 @@
     }
 
     $.fn.moveUp = function() {
+      if ( animationLock ) return;
+      animationLock = true;
+
       var el = $(this)
       index = $(settings.sectionContainer +".active").data("index");
       current = $(settings.sectionContainer + "[data-index='" + index + "']");
@@ -218,18 +237,18 @@
       var typeOfRF = typeof settings.responsiveFallback
 
       if(typeOfRF == "number"){
-      	valForTest = $(window).width() < settings.responsiveFallback;
+        valForTest = $(window).width() < settings.responsiveFallback;
       }
       if(typeOfRF == "boolean"){
-      	valForTest = settings.responsiveFallback;
+        valForTest = settings.responsiveFallback;
       }
       if(typeOfRF == "function"){
-      	valFunction = settings.responsiveFallback();
-      	valForTest = valFunction;
-      	typeOFv = typeof valForTest;
-      	if(typeOFv == "number"){
-      		valForTest = $(window).width() < valFunction;
-      	}
+        valFunction = settings.responsiveFallback();
+        valForTest = valFunction;
+        typeOFv = typeof valForTest;
+        if(typeOFv == "number"){
+          valForTest = $(window).width() < valFunction;
+        }
       }
 
       //end modification
@@ -271,7 +290,7 @@
         }
 
         if (deltaOfInterest < 0) {
-          el.moveDown()
+          el.moveDown();
         } else {
           el.moveUp()
         }
