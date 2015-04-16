@@ -30,8 +30,8 @@ body, .onepage-wrapper, html {
 
 .onepage-pagination {
   position: absolute;
-  right: 10px;
-  top: 50%;
+  left: 30px;
+  top: 35%;
   z-index: 5;
   list-style: none;
   margin: 0;
@@ -40,32 +40,38 @@ body, .onepage-wrapper, html {
 .onepage-pagination li {
   padding: 0;
   text-align: center;
+  margin-top: 5px;
 }
 .onepage-pagination li a{
   padding: 10px;
   width: 4px;
   height: 4px;
   display: block;
-  
+
 }
 .onepage-pagination li a:before{
   content: '';
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(0,0,0,0.85);
+  width: 16px;
+  height: 16px;
+  background: none;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.onepage-pagination li a:hover:before{
+  border: 3px solid rgba(255, 255, 255, 1);
 }
 
 .onepage-pagination li a.active:before{
-  width: 10px;
-  height: 10px;
-  background: none;
-  border: 1px solid black;
-  margin-top: -4px;
-  left: 8px;
+  width: 16px;
+  height: 16px;
+  background: rgba(255, 255, 255, 1);
+
+  margin-top: 0px;
+  left: 10px;
 }
 
 .disabled-onepage-scroll, .disabled-onepage-scroll .wrapper {
@@ -92,4 +98,15 @@ body, .onepage-wrapper, html {
 
 body.disabled-onepage-scroll, .disabled-onepage-scroll .onepage-wrapper, html {
   position: inherit;
+}
+
+.section-shadow {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: -1 !important;
+}
+
+.section {
+
 }
