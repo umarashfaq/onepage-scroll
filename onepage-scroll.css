@@ -47,7 +47,7 @@ body, .onepage-wrapper, html {
   width: 4px;
   height: 4px;
   display: block;
-
+  position: relative;
 }
 .onepage-pagination li a:before{
   content: '';
@@ -72,6 +72,17 @@ body, .onepage-wrapper, html {
 
   margin-top: 0px;
   left: 10px;
+}
+
+.onepage-pagination li a:hover:after {
+  content: attr(data-title);
+  color: #fff;
+  font-size: 12px;
+  position: absolute;
+  top: 5px;
+  left: 30px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 5px 10px;
 }
 
 .disabled-onepage-scroll, .disabled-onepage-scroll .wrapper {

@@ -1,5 +1,6 @@
 #Changes in this fork
 * Prevents duplicate animation triggers.
+* Adds ability to specify pagination button titles which appear on mouseover.
 
 This fork is being used [here](http://www.eastros.com).
 

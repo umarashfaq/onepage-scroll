@@ -328,7 +328,11 @@
 
 
       if(settings.pagination == true) {
-        paginationList += "<li><a data-index='"+(i+1)+"' href='#" + (i+1) + "'></a></li>"
+        var title = '';
+        if ( options.pageTitles && i < options.pageTitles.length ) {
+          title = 'data-title=\''+options.pageTitles[i]+'\''
+        }
+        paginationList += "<li><a data-index='"+(i+1)+"' href='#" + (i+1) + "' "+title+"></a></li>"
       }
     });
 
